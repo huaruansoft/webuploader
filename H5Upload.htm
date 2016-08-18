@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>	
+	<script src="../js/jquery-2.2.3.min.js" type="text/javascript"></script>
+	<script src="webuploader.js" type="text/javascript"></script>
+</head>
+<body>
+	<h1>ajax 上传图片</h1>
+	<p>单一元素，直接定义click简单直接</p>
+    <button onclick="h5upload(this)">上传</button>
+    <p>多元素采用插件绑定方式</p>
+    <button class="H5Upload">上传</button>
+
+	<div id="photoList"></div>
+
+	<script>
+        option = {
+            url: 'upload.ashx?method=upload',
+            acceptFiles: 'image/jpeg,image/png,image/jpg',
+            filesize: 2,
+            success: function (response) {
+                var res = response.split(',');
+                var self = $(this);
+                if (res[0] == "1") {
+                    var filename = res[1];
+                    var html = "<img src='" + filename + "' />";
+                    $('#photoList').append(html);
+                }
+                else {
+                    jAlert("上传失败,原因：" + res[1]);
+                }
+            }
+        };
+
+        function h5upload(el) {
+            webuploader(el, this, option);
+        }
+
+        $('.H5Upload').webuploader(option);
+	</script>
+</body>
+</html>
